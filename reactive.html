@@ -9,36 +9,50 @@
 <body>
     <div id="app">
         <h1>{{upperCaseMessage}}</h1>
+        <p>Lucky Number: {{luckyNumber}}</p>
         <p>{{ employee.name }} is {{employee.age}} and he is a {{employee.role}}</p>
         <p>Random Number from 1-10 is {{randomNumber}}</p>
     </div>
 </body>
 <script>
     //Instantiate Vue
-    const { createApp } = Vue;
+    const { createApp, ref } = Vue;
 
     createApp({
         setup(){
             const message = "Hello World!";
-            const luckyNumber = 6;
+            let luckyNumber = ref(6);
             const randomNumber  = getRandomNumber();
             const upperCaseMessage = uppercaseMessage(message);
             
-            const employee = {
+            const employee = ref({
                 name : "Akshay",
                 age : 22,
                 role : "Software Dev",
-            };
+            });
 
+            // change the ref variable
             function getRandomNumber(){
+                luckyNumber.value = Math.floor(Math.random()*10) + 1;
                 return Math.floor(Math.random()*10) + 1;
             }
+
+            // set timeout
+            function updateLuckyNumber(){
+                setTimeout(() => {
+                    luckyNumber.value = 69;
+                    employee.value.name = 'Shodan';
+                }, 2000);
+            }
+            
+            updateLuckyNumber();
 
             function uppercaseMessage(message){
                 return message.toUpperCase();
             }
 
             return {
+                luckyNumber,
                 upperCaseMessage,
                 employee,
                 randomNumber
