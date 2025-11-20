@@ -16,7 +16,7 @@
 </body>
 <script>
     //Instantiate Vue
-    const { createApp, ref } = Vue;
+    const { createApp, ref, reactive } = Vue;
 
     createApp({
         setup(){
@@ -25,7 +25,7 @@
             const randomNumber  = getRandomNumber();
             const upperCaseMessage = uppercaseMessage(message);
             
-            const employee = ref({
+            const employee = reactive({
                 name : "Akshay",
                 age : 22,
                 role : "Software Dev",
@@ -41,7 +41,7 @@
             function updateLuckyNumber(){
                 setTimeout(() => {
                     luckyNumber.value = 69;
-                    employee.value.name = 'Shodan';
+                    employee.name = 'Shodan';
                 }, 2000);
             }
             
