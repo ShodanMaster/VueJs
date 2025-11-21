@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Directives</title>
+</head>
+<body>
+    <div id="app">
+        <span v-html="htmlVar">{{htmlVar}}</span>
+        <span v-once="varNumber">Render Once: {{varNumber}}</span>
+        <p>Updated Number: {{varNumber}}</p>
+        <a v-bind:href="gitUrl" target="_blank">github</a>
+        <p v-show="employee.hasCard">Limit is(show): {{employee.limit}}</p>
+        <p v-if="employee.hasCard">Limit is(if): {{employee.limit}}</p>
+        <p v-elseif="employee.salary > 20000">Eligible for card</p>
+        <p v-else>
+            You don't have a card
+        </p>
+        <p v-for="(luckyNumber, index) in luckyNumbers">
+            {{index+1}}) luckyNumber: {{luckyNumber}}
+        </p>
+        <hr>
+        <p>{{employee.name}}</p>
+        <ul>
+            <li v-for="(value, key) in  employee">
+                {{key}} : {{value}}
+            </li>
+        </ul>
+        <p>{{employee.name}}'s Projects</p>
+        {{shuffleProjects()}}
+        <ul>
+            <li v-for="project in employee.projects" :key="project.name">
+                {{project.name}} - {{project.duration}}
+                <input type="text">
+            </li>
+        </ul>
+        <hr>
+        <ul>
+            <li v-for="(project, index) in  employee.projects">
+                {{index+1}}) {{project.name}} - {{project.duration}}
+            </li>
+        </ul>
+        <hr>
+        <h3>Loop with v-once</h3>
+        <ul>
+            <li v-for="(luckyNumber, index) in luckyNumbers">
+               <span v-once> {{index+1}}) luckyNumber: {{luckyNumber}}</span>
+            </li>
+    </div>
+</body>
+<script>
+    //Instantiate Vue
+    const { createApp, ref, reactive } = Vue;
+
+    createApp({
+        setup(){
+            const htmlVar = "<h1><u>Hello World!</u></h1>";
+            const varNumber = ref(10);
+            const gitUrl = "https://github.com/ShodanMaster";
+
+            const employee = reactive({
+                name : "Akshay",
+                age : 22,
+                role : "Software Dev",
+                salary : 50000,
+                hasCard : false,
+                limit : 2000,
+                projects : [
+                    { name: "Project A", duration: "3 months" },
+                    { name: "Project B", duration: "6 months" },
+                    { name: "Project C", duration: "9 months" },
+                ]
+            });
+
+            const luckyNumbers = [3, 6, 9, 12, 15];
+
+            function changeVarNumber(){
+                setTimeout(() => {
+                    varNumber.value = 69;
+                }, 2000);
+            }
+            changeVarNumber();
+
+            function shuffleProjects(){
+                setTimeout(() => {
+                    employee.projects.sort(() => Math.random() - 0.5);
+                }, 2000);
+            }
+            
+            return {
+                htmlVar,
+                varNumber,
+                gitUrl,
+                employee,
+                luckyNumbers,
+                shuffleProjects
+            };
+        },
+    }).mount("#app");
+</script>
+</html>
