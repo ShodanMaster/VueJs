@@ -5,22 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        .h1{
+            font-size: 60px;
+            color : red;
+        }
+        .h2{
+            font-size: 40px;
+            color : chocolate;
+        }
+        .bg-grey{
+            background-color: grey;
+        }
+        .bg-green{
+            background-color: green;
+        }
+        .padding-medium{
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
-        <div v-bind:style="{ backgroundColor: 'aqua', fontSize: '40px' }">Hello World</div>
-        <div v-bind:style="{ 'background-color': 'aqua', 'font-size': '40px' }">Hello World</div>
-        <div v-bind:style="{ backgroundColor: 'aqua', fontSize: fontSizeVar + 'px' }">Hello World</div>
+        <div class="padding-medium" v-bind:class="{h1: true}">
+            Random Name
+        </div>
+        <div class="padding-medium" v-bind:class="{h1: isMainTitle(), 'bg-green': hasGreenBackground()}">
+            Random Name
+        </div>
+        <div class="padding-medium" v-bind:class="mainTitle">
+            Random Name
+        </div>
+        <div class="padding-medium" v-bind:style="customStyle.style1">
+            Random Name
+        </div>
+        <div class="padding-medium" :style="[borderClass ? customStyle.style1 : ''], mainTitle">
+            Random Name
+        </div>
     </div>
 </body>
 <script>
     const {createApp, ref, reactive} = Vue;
-    const fontSizeVar= 60;
 
     createApp({
         setup(){
+
+            const mainTitle = {
+                h1:true,
+                'bg-green': true
+            };
+
+            const borderClass = {
+                border : true,
+            };
+
+            const customStyle = {
+                style1 : {
+                    fontSize: '50px',
+                    color: 'purple',
+                    margin: '20px',
+                    border: '2px solid black'
+                }
+            };
+
+            function isMainTitle(){
+                return true;
+            };
+
+            function hasGreenBackground(){
+                return true;
+            };
+            
             return {
-                fontSizeVar
+                isMainTitle,
+                hasGreenBackground,
+                mainTitle,
+                customStyle,
+                borderClass,
             };
         }
     }).mount('#app');
