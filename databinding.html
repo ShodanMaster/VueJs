@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>Learn Vue</div>
+        <input type="text" v-model="name">
+        <input type="number" v-model="age">
+        <hr>
+        <h2>Your name is: {{ name }}</h2>
+        <h2>Your age is: {{ age }}</h2>
+    </div>
+</body>
+<script>
+    const {createApp, ref, reactive} = Vue;
+
+    let name = ref('John Doe');
+    let age = ref(22);
+    createApp({
+
+
+        setup(){
+            return {
+                name,
+                age
+            };
+        }
+    }).mount('#app');
+</script>
+</html>
