@@ -8,20 +8,29 @@
 </head>
 <body>
     <div id="app">
-        <p>{{ count }}</p>
+        <p>var: {{ count }}</p>
         <button v-on:click="count++">Increment</button>
         <button v-on:click="count--">Decrement</button>
+        <hr>
+        <p>Object: {{ obj.count }}</p>
+        <button v-on:click="obj.count++">Increment</button>
+        <button v-on:click="obj.count--">Decrement</button>
     </div>
 </body>
 <script>
 
-    const {createApp, ref, watch} = Vue;
+    const {createApp, ref, reactive, watch} = Vue;
 
     createApp({
         setup(){
             let count = ref(0);
+            const obj = reactive({count : 0});
+
+            // Watching primitive ref
+            // watch( count, (newValue, oldValue) => {
             
-            watch(() => count.value, (newValue, oldValue) => {
+            // Watching reactive object property
+            watch(() => obj.count, (newValue, oldValue) => {
                 console.log(`Changed values from ${oldValue} to ${newValue}`);
                 
                 if(newValue === 5){
@@ -31,6 +40,7 @@
 
             return{
                 count,
+                obj,
             }
 
         }
