@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ count }}</p>
+        <p>{{ getFullName }}</p>
+        <button v-on:click="count++">Increment</button>
+        <button v-on:click="count--">Decrement</button>
+        <hr>
+        <input type="text" v-model="fisrtName">
+    </div>
+</body>
+<script>
+
+    const {createApp, ref, computed, watch} = Vue;
+
+    createApp({
+        setup(){
+            let count = ref(0);
+            let fisrtName = ref('Jane');
+            let lastName = ref('Doe');
+
+            const getFullName = computed((previous) => {
+                console.log(previous);
+
+                if(previous == 'Jane Doe'){
+                    console.log("previous: " + previous);
+                }
+
+                console.log("getFullName Called");
+                
+                return fisrtName.value + ' ' + lastName.value;
+            });
+
+            return{
+                count,
+                getFullName,
+                fisrtName,
+            }
+
+        }
+    }).mount('#app')
+</script>
+</html>

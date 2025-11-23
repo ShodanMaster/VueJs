@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ count }}</p>
+        <button v-on:click="count++">Increment</button>
+        <button v-on:click="count--">Decrement</button>
+    </div>
+</body>
+<script>
+
+    const {createApp, ref, watch} = Vue;
+
+    createApp({
+        setup(){
+            let count = ref(0);
+            
+            watch(() => count.value, (newValue, oldValue) => {
+                console.log(`Changed values from ${oldValue} to ${newValue}`);
+                
+                if(newValue === 5){
+                    alert("Count reached 5!");
+                }
+            });
+
+            return{
+                count,
+            }
+
+        }
+    }).mount('#app')
+</script>
+</html>
