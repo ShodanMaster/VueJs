@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <div v-on:click="buttonClicked('Hello! Div', $event)">Click Div</div>
+            <button v-on:click="buttonClicked('Hello! Button', $event)">Click Button</button>
+            <p>X Coordinate: {{x}}</p>
+            <p>Y Coordinate: {{y}}</p>
+        </div>
+    </div>
+</body>
+<script>
+    const {createApp,  ref} = Vue;
+
+    createApp({
+        setup(){
+            let x=ref(0);
+            let y=ref(0);
+
+            function buttonClicked(message, event){
+                alert(message);
+                console.log(event);
+                x.value = event.x;
+                y.value = event.y;
+                console.log("X Coordinate: " + x.value + ", Y Coordinate: " + y.value);
+            }
+            
+            return {
+                buttonClicked,
+                x,
+                y,
+            };
+        }
+    }).mount('#app');
+</script>
+</html>
