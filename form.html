@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+    <div id="app" class="container mt-5">
+        <div class="card">
+            <div class="card-header">Forms in Vue</div>
+            <form v-on:submit.prevent="handleSubmit">
+                <div class="card-body">
+                    <div class="alert alert-danger" v-if="errorList.length > 0">
+                        <ul>
+                            <li v-for="error in errorList">{{ error }}</li>
+                        </ul>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" v-model.trim="formObject.name" v-on:blur="validateName()">
+                    </div>
+                    <div v-if="formObject.isNameValid" class="alert alert-danger">Name must be more than 3 characters.</div>
+                    <div class="form-group mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" v-model="formObject.email">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input type="text" class="form-control" id="phone" v-model.number="formObject.phone">
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="subscribe" v-model="formObject.subscribe">
+                        <label class="form-check-label" for="subscribe">Subscribe to Newsletter</label>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label">Gender</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="male" value="Male" v-model="formObject.gender">
+                                <label class="form-check-label" for="male">Male</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="female" value="Female" v-model="formObject.gender">
+                                <label class="form-check-label" for="female">Female</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="other" value="Other" v-model="formObject.gender">
+                                <label class="form-check-label" for="other">Other</label>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="otherGender" class="form-label">Gender:</label>
+                                <select name="" id="" class="form-control" v-model="formObject.gender">
+                                    <option value="" disabled selected>Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script>
+    const {createApp, reactive} = Vue;
+
+    createApp({
+        setup(){
+            const formObject = reactive({
+                name: '',
+                email: '',
+                phone: '',
+                subscribe: false,
+                gender : 'Male',
+                isNameValid: false,
+            });
+
+            const errorList = reactive([]);
+
+            function validateName(){
+                if(formObject.name.length < 3){
+                    formObject.isNameValid = true;
+                }else{
+                    formObject.isNameValid = false;
+                }
+            }
+
+            function handleSubmit(){
+                errorList.length = 0;
+
+                if(formObject.name === ''){
+                    errorList.push("Name is required.");
+                }
+                if(formObject.email === ''){
+                    errorList.push("Email is required.");
+                }
+                if(formObject.phone === ''){
+                    errorList.push("Phone is required.");
+                }
+                if(formObject.isNameValid){
+                    errorList.push("Name must be more than 3 characters.");
+                }
+                if(errorList.length > 0){
+                    return;
+                }
+
+                alert("Form Submitted Successfully!");
+
+                console.log(formObject);
+                
+            }
+
+            return {
+                formObject,
+                handleSubmit,
+                validateName,
+                errorList,
+            };
+        }
+    }).mount('#app');
+</script>
+</html>
